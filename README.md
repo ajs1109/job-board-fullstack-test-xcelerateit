@@ -61,9 +61,12 @@ You may choose from the following:
    - Code is committed in logical steps
    - `README.md` is updated with setup instructions
    - Optional: Deployed app link (Render/Vercel/Railway)
-4. Submit your GitHub repo link via this Google Form:  
-    [https://forms.gle/your-form-link-here](https://forms.gle/your-form-link-here)
 
+4. Submit your GitHub repo link to the following email ID:  
+    **support@xcelerateit.ai**
+5. Use the subject line:  
+   `[Role] - [Your Full Name] - GitHub Submission`  
+   Example: `AI/ML Developer - Anjali Mehta - GitHub Submission`   
 ---
 
 ##  Evaluation Criteria
