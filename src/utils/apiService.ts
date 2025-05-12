@@ -10,6 +10,9 @@ export class ApiService {
       baseURL,
       headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*', // Or specify domains instead of '*'
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
       withCredentials: true,
     });
