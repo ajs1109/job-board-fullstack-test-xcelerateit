@@ -19,7 +19,7 @@ export default function ProtectedRoute({ children, roles }: ProtectedRouteProps)
     }
 
     if (!loading && isAuthenticated && roles && !roles.includes(user?.role as string)) {
-      router.push('/jobs');
+      router.push('/');
     }
   }, [loading, isAuthenticated, user, roles, router]);
 

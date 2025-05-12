@@ -21,7 +21,7 @@ export default function EditJobPage() {
         setJob(response);
       } catch (error) {
         console.error('Error fetching job:', error);
-        router.push('/jobs');
+        router.push('/');
       } finally {
         setLoading(false);
       }
@@ -31,7 +31,7 @@ export default function EditJobPage() {
   }, [id, router]);
 
   if (!isAuthenticated || user?.role !== 'employer') {
-    router.push('/jobs');
+    router.push('/');
     return null;
   }
 
@@ -44,7 +44,7 @@ export default function EditJobPage() {
   }
 
   if (job.employerId !== user?.id) {
-    router.push('/jobs');
+    router.push('/');
     return null;
   }
 

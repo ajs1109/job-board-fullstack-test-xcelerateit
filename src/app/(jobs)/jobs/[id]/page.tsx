@@ -22,7 +22,7 @@ export default function JobDetailPage() {
         setJob(response);
       } catch (error) {
         console.error('Error fetching job:', error);
-        router.push('/jobs');
+        router.push('/');
       } finally {
         setLoading(false);
       }
@@ -36,7 +36,7 @@ export default function JobDetailPage() {
       try {
         await deleteJobById(id?.toString() ?? '');
         toast.success('Job deleted successfully');
-        router.push('/jobs');
+        router.push('/');
       } catch (error) {
         toast.error('Failed to delete job');
       }
