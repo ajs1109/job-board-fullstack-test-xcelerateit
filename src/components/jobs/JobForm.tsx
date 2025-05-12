@@ -1,10 +1,11 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { Job } from '@/types/job';
+import { CreateJob, Job } from '@/types/job';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import api from '@/lib/api';
+import { createJob, updateJob } from '@/lib/api';
+import { useState } from 'react';
 
 interface JobFormProps {
   initialData?: Job;
@@ -14,8 +15,10 @@ export default function JobForm({ initialData }: JobFormProps) {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm<Omit<Job, 'id' | 'employerId'>>({
+  } = useForm<CreateJob>({
     defaultValues: initialData || {
       title: '',
       description: '',
@@ -24,21 +27,42 @@ export default function JobForm({ initialData }: JobFormProps) {
     },
   });
 
+  // Watch the skills array
+  const skills = watch('skills');
+  // State for the skills input field
+  const [skillsInput, setSkillsInput] = useState(
+    initialData?.skills?.join(', ') || ''
+  );
+
   const router = useRouter();
 
-  const onSubmit = async (data: Omit<Job, 'id' | 'employerId'>) => {
+  const onSubmit = async (data: CreateJob) => {
     try {
       if (initialData) {
-        await api.put(`/jobs/${initialData.id}`, data);
+        await updateJob(initialData.id.toString(), data);
         toast.success('Job updated successfully!');
       } else {
-        await api.post('/jobs', data);
+        await createJob(data);
         toast.success('Job created successfully!');
       }
       router.push('/jobs');
     } catch (error) {
       toast.error('Something went wrong. Please try again.');
     }
+  };
+
+  // Convert comma-separated string to array and update form value
+  const handleSkillsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSkillsInput(value);
+    
+    // Convert to array and trim whitespace
+    const skillsArray = value
+      .split(',')
+      .map(skill => skill.trim())
+      .filter(skill => skill.length > 0);
+    
+    setValue('skills', skillsArray, { shouldValidate: true });
   };
 
   return (
@@ -93,24 +117,21 @@ export default function JobForm({ initialData }: JobFormProps) {
         <input
           id="skills"
           type="text"
-          {...register('skills', {
-            required: 'Skills are required',
-            validate: (value) => {
-              if (typeof value === 'string') {
-                return true;
-              }
-              return 'Skills must be an array or comma-separated string';
-            },
-            setValueAs: (value) => {
-              if (Array.isArray(value)) return value;
-              return value.split(',').map((s: string) => s.trim());
-            },
-          })}
+          value={skillsInput}
+          onChange={handleSkillsChange}
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="JavaScript, React, Node.js"
         />
         {errors.skills && (
-          <p className="mt-2 text-sm text-red-600">{errors.skills.message}</p>
+          <p className="mt-2 text-sm text-red-600">
+            {typeof errors.skills === 'string' 
+              ? errors.skills 
+              : 'Please enter at least one skill'}
+          </p>
         )}
+        <p className="mt-1 text-sm text-gray-500">
+          Current skills: {skills?.join(', ') || 'None'}
+        </p>
       </div>
 
       <div className="flex justify-end">

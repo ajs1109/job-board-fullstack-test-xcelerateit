@@ -11,15 +11,18 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    const user = await User.findOne({ where: { email } });
+    let user = await User.findOne({ where: { email } });
     if (!user) {
-      return NextResponse.json(
-        { message: "Invalid credentials" },
-        { status: 400 }
-      );
+      user = await User.findOne({ where: { name: email } });
+      if(!user){
+        return NextResponse.json(
+          { message: "Invalid credentials" },
+          { status: 400 }
+        );
+      }
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.dataValues.password ?? '');
     if (!isMatch) {
       return NextResponse.json(
         { message: "Invalid credentials" },
@@ -29,7 +32,7 @@ export async function POST(request: Request) {
 
     const { password: _, ...userWithoutPassword } = user.toJSON();
 
-    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "2days" });
+    const token = jwt.sign({ id: user.dataValues.id }, JWT_SECRET, { expiresIn: "2days" });
     const response = NextResponse.json(
       {
         user: userWithoutPassword,

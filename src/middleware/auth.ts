@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-export async function authenticate(request: Request) {
-  const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+export async function authenticate(request: NextRequest) {
+  const token = request.cookies.get('auth_token')?.value;
 
   if (!token) {
     return NextResponse.json(
@@ -22,8 +22,8 @@ export async function authenticate(request: Request) {
   }
 }
 
-export async function getAuthenticatedUser(request: Request) {
-  const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+export async function getAuthenticatedUser(request: NextRequest) {
+  const token = request.cookies.get('auth_token')?.value;
   return jwt.verify(token as string, process.env.JWT_SECRET as string) as {
     id: number;
     role: string;

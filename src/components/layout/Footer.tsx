@@ -1,6 +1,6 @@
 // components/layout/Footer.tsx
 import React from 'react';
-import { Keyboard, Github, Twitter } from 'lucide-react';
+import { Keyboard, Github, Twitter, UserRoundCheckIcon } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -9,22 +9,17 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Keyboard className="h-6 w-6 text-violet-600" />
-              <span className="text-xl font-bold text-violet-600">Rapid Keys</span>
+              <UserRoundCheckIcon className="h-6 w-6 text-violet-600" />
+              <span className="text-xl font-bold text-violet-600">Job Board</span>
             </div>
             <p className="text-sm text-gray-600">
-              Improve your typing speed and accuracy with our interactive typing games and challenges.
+              Get the latest job listings and find your dream job with us. We provide a platform for employers and job seekers to connect seamlessly.
             </p>
           </div>
 
           <div className="space-y-4">
             <h3 className="font-semibold text-gray-900">Quick Links</h3>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li>
-                <a href="/leaderboard" className="hover:text-violet-600 transition-colors">
-                  Leaderboard
-                </a>
-              </li>
               <li>
                 <a href="/profile" className="hover:text-violet-600 transition-colors">
                   Profile
@@ -59,7 +54,7 @@ const Footer: React.FC = () => {
               </a>
             </div>
             <p className="text-sm text-gray-600">
-              © {new Date().getFullYear()} Rapid Keys. All rights reserved.
+              © {new Date().getFullYear()} Job Board. All rights reserved.
             </p>
           </div>
         </div>

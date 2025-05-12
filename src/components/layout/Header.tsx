@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Settings, LogOut, User, Keyboard } from 'lucide-react';
+import { Settings, LogOut, User, Keyboard, UserRoundCheckIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -43,8 +43,8 @@ const Header: React.FC<HeaderProps> = ({ username = 'Guest' }) => {
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => router.push("/")}
         >
-          <Keyboard className="h-6 w-6 text-violet-600" />
-          <span className="text-xl font-bold text-violet-600">Rapid Keys</span>
+          <UserRoundCheckIcon className="h-6 w-6 text-violet-600" />
+          <span className="text-xl font-bold text-violet-600">Job Board</span>
         </div>
 
         <div className="flex items-center space-x-4">
@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ username = 'Guest' }) => {
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className='cursor-pointer'>
                 <Settings className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>

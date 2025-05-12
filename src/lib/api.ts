@@ -1,23 +1,23 @@
-import { User } from '@/types/user';
+import { CreateJob } from '@/types/job';
+import { User, UserRole } from '@/types/user';
 import { apiService } from '@/utils/apiService';
-import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
-
-const api = axios.create({
-  baseURL: API_URL,
-});
-
-// Add a request interceptor to include the token
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+export const loginUser = async (email: string, password: string): Promise<{message:string, user?:User, token?: string}> => {
+  try {
+    const data = await apiService.post<{message:string, user?:User}>('/auth/login', {email, password});
+    return data;
+  } catch (error) {
+    throw error;
   }
-  return config;
-});
-
-export default api;
+}
+export const registerUser = async (name: string, email: string, password: string, role: UserRole): Promise<{message:string, user?:User, token?: string}> => {
+  try {
+    const data = await apiService.post<{message:string, user?:User}>('/auth/register', {name, email, password, role});
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const verifyUser = async (token: string): Promise<{message:string, user?:User}> => {
   try {
@@ -27,3 +27,48 @@ export const verifyUser = async (token: string): Promise<{message:string, user?:
     throw error;
   }
 };
+
+export const fetchAllJobs = async (): Promise<any> => {
+  try {
+    const data = await apiService.get('/jobs');
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const createJob = async (jobData: CreateJob): Promise<any> => {
+  try {
+    const data = await apiService.post('/jobs', jobData);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const fetchJobById = async (jobId: string): Promise<any> => {
+  try {
+    const data = await apiService.get(`/jobs/${jobId}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const deleteJobById = async (jobId: string): Promise<any> => {
+  try {
+    const data = await apiService.delete(`/jobs/${jobId}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const updateJob = async (jobId: string, jobData: CreateJob): Promise<any> => {
+  try {
+    const data = await apiService.put(`/jobs/${jobId}`, jobData);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

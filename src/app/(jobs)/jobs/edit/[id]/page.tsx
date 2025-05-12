@@ -1,11 +1,11 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import api from '@/lib/api';
 import { useEffect, useState } from 'react';
 import { Job } from '@/types/job';
 import JobForm from '@/components/jobs/JobForm';
 import { useAuthStore } from '@/stores/authStore';
+import { fetchJobById } from '@/lib/api';
 
 export default function EditJobPage() {
   const { id } = useParams();
@@ -17,8 +17,8 @@ export default function EditJobPage() {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await api.get(`/jobs/${id}`);
-        setJob(response.data);
+        const response = await fetchJobById(id?.toString() ?? '');
+        setJob(response);
       } catch (error) {
         console.error('Error fetching job:', error);
         router.push('/jobs');

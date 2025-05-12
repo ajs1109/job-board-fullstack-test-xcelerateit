@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import api from '@/lib/api';
+import { loginUser, registerUser, verifyUser } from '@/lib/api';
 import { AuthUser, LoginInput } from '@/types/user';
 import { toast } from 'react-hot-toast';
 
@@ -31,14 +31,11 @@ export const useAuthStore = create<AuthState>()(
       login: async (email, password) => {
         set({ loading: true, error: null });
         try {
-          const response = await api.post<{
-            token: string;
-            user: AuthUser;
-          }>('/auth/login', { email, password });
+          const response = await loginUser(email, password);
           
           set({ 
-            user: response.data.user,
-            token: response.data.token,
+            user: response.user,
+            token: response.token,
             isAuthenticated: true,
             loading: false
           });
@@ -57,20 +54,10 @@ export const useAuthStore = create<AuthState>()(
       register: async (data) => {
         set({ loading: true, error: null });
         try {
-
-          const response = await api.post<{
-            token: string;
-            user: AuthUser;
-          }>('/auth/register', {
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            role: data.role
-          });
-          
+          const response = await registerUser(data.name, data.email, data.password ?? '', data.role);
           set({ 
-            user: response.data.user,
-            token: response.data.token,
+            user: response.user,
+            token: response.token,
             isAuthenticated: true,
             loading: false
           });
@@ -101,13 +88,12 @@ export const useAuthStore = create<AuthState>()(
 
       initialize: async () => {
         const { token, user } = get();
-        
+        console.log('into initialize');
         if (token && user) {
           try {
-            // Verify token with backend
-            const response = await api.get('/auth/verify');
+            const response = await verifyUser(token as string);
             
-            if (!response.data.valid) {
+            if (!response) {
               throw new Error('Session expired');
             }
 
@@ -135,7 +121,6 @@ export const useAuthStore = create<AuthState>()(
   )
 );
 
-// Optional: Add a hook for easy access to auth state
 export const useAuth = () => {
   const state = useAuthStore();
   

@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Keyboard } from "lucide-react";
+import { BrainCircuit, Keyboard, Laptop, UserRoundCheckIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -45,8 +45,9 @@ const AuthForms = () => {
       );
 
       onAuthSuccess();
-    } catch (error) {
-      errorToast(error instanceof Error ? error.message : "Login failed");
+    } catch (error: any) {
+      console.log(error);
+      errorToast(error.response.data.message ? error.response.data.message : "Login failed");
     }
   };
 
@@ -74,11 +75,6 @@ const AuthForms = () => {
   };
 
   const onAuthSuccess = () => {
-    //successToast('Welcome!');
-    // Dispatch an event to sync auth state
-    window.dispatchEvent(new Event("auth-state-changed"));
-
-    // Redirect to the menu page
     router.push("/");
   };
 
@@ -86,12 +82,12 @@ const AuthForms = () => {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-violet-500/10 to-purple-500/10">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <Keyboard className="h-12 w-12 text-violet-500" />
+          <div className="flex justify-center ">
+            <UserRoundCheckIcon className="h-12 w-12 text-violet-500" />
+          <CardTitle className="text-2xl font-bold my-auto ml-4">Job Board</CardTitle>
           </div>
-          <CardTitle className="text-2xl font-bold">Rapid Keys</CardTitle>
           <CardDescription>
-            Improve your typing speed with friends
+            Welcome to the Job Board! Please login or sign up to continue.
           </CardDescription>
         </CardHeader>
         <Tabs defaultValue="login" className="w-full">

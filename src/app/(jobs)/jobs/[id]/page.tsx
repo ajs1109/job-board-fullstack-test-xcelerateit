@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import api from '@/lib/api';
 import { Job } from '@/types/job';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { useAuthStore } from '@/stores/authStore';
+import { deleteJobById, fetchJobById } from '@/lib/api';
 
 export default function JobDetailPage() {
   const { id } = useParams();
@@ -18,8 +18,8 @@ export default function JobDetailPage() {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await api.get(`/jobs/${id}`);
-        setJob(response.data);
+        const response = await fetchJobById(id?.toString() ?? '');
+        setJob(response);
       } catch (error) {
         console.error('Error fetching job:', error);
         router.push('/jobs');
@@ -34,7 +34,7 @@ export default function JobDetailPage() {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this job?')) {
       try {
-        await api.delete(`/jobs/${id}`);
+        await deleteJobById(id?.toString() ?? '');
         toast.success('Job deleted successfully');
         router.push('/jobs');
       } catch (error) {
@@ -62,7 +62,7 @@ export default function JobDetailPage() {
           {isAuthenticated && user?.id === job.employerId && (
             <div className="flex space-x-3">
               <Link
-                href={`/jobs/${job.id}/edit`}
+                href={`/jobs/edit/${job.id}`}
                 className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Edit

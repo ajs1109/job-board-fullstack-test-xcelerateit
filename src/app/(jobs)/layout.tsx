@@ -13,7 +13,8 @@ export default async function RootLayout({
 }>) {
 
   const cookieList = await cookies();
-  const accessToken = cookieList.get('auth_token')?.value ?? ''
+  const accessToken = cookieList.get('auth_token')?.value ?? '';
+  console.log('accessToken:', accessToken);
   let user: User | null = null;
   try {
     apiService.setupHeader("Authorization", `Bearer ${accessToken}`);

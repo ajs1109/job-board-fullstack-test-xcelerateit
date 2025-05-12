@@ -9,7 +9,7 @@ export default function CreateJobPage() {
   const router = useRouter();
 console.log('object from create: ', isAuthenticated, user);
   if (!isAuthenticated || user?.role !== 'employer') {
-    router.push('/sss');
+    router.push('/jobs');
     return null;
   }
 
