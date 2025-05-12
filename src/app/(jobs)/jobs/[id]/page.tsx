@@ -38,6 +38,7 @@ export default function JobDetailPage() {
         toast.success('Job deleted successfully');
         router.push('/');
       } catch (error) {
+        console.error('Error deleting job:', error);
         toast.error('Failed to delete job');
       }
     }

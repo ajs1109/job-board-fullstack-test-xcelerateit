@@ -11,7 +11,7 @@ interface AuthLayoutProps {
   user?: User;
 }
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children, user }) => {
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   const { user: storeUser, initialize, loading } = useAuthStore();
   
   useEffect(() => {

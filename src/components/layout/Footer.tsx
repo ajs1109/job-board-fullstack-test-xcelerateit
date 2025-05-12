@@ -1,6 +1,6 @@
 // components/layout/Footer.tsx
 import React from 'react';
-import { Keyboard, Github, Twitter, UserRoundCheckIcon } from 'lucide-react';
+import { Github, Twitter, UserRoundCheckIcon } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (

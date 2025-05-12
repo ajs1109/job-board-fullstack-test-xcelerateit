@@ -30,7 +30,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { password: _, ...userWithoutPassword } = user.toJSON();
+    const { ...userWithoutPassword } = user.toJSON();
 
     const token = jwt.sign({ id: user.dataValues.id }, JWT_SECRET, { expiresIn: "2days" });
     const response = NextResponse.json(

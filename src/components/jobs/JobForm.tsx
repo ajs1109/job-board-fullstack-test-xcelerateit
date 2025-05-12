@@ -47,6 +47,7 @@ export default function JobForm({ initialData }: JobFormProps) {
       }
       router.push('/');
     } catch (error) {
+      console.error('Error submitting form:', error);
       toast.error('Something went wrong. Please try again.');
     }
   };

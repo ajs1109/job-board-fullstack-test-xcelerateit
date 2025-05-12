@@ -5,7 +5,6 @@ import { fetchAllJobs } from '@/lib/api';
 import Link from 'next/link';
 import { Job } from '@/types/job';
 import { useAuthStore } from '@/stores/authStore';
-//import { FiSearch } from 'react-icons/fi';
 import { Search } from 'lucide-react';
 
 export default function JobsPage() {
@@ -65,7 +64,7 @@ export default function JobsPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             {searchQuery && (
-              <button
+              <button title="Search for jobs" type='button'
                 onClick={() => setSearchQuery('')}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center"
               >

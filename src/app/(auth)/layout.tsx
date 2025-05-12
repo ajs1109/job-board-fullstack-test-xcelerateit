@@ -1,4 +1,3 @@
-import AuthLayout from '@/components/layout/AuthLayout';
 import { verifyUser } from '@/lib/api';
 import { User } from '@/types/user';
 import { apiService } from '@/utils/apiService';

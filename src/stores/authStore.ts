@@ -40,6 +40,7 @@ export const useAuthStore = create<AuthState>()(
             loading: false
           });
           toast.success('Logged in successfully!');
+          //@ts-ignore
         } catch (error: any) {
           const errorMessage = error.response?.data?.message || 'Login failed';
           set({ 
@@ -102,6 +103,7 @@ export const useAuthStore = create<AuthState>()(
               loading: false
             });
           } catch (error) {
+            console.error('Error verifying user:', error);
             get().logout();
           }
         } else {

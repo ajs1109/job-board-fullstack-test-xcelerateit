@@ -9,7 +9,6 @@ export interface BaseUser {
   updatedAt?: Date | string;
 }
 
-
 // Also create a type for user creation input
 export interface CreateUser {
   name: string;
@@ -27,7 +26,6 @@ export interface User extends BaseUser {
 export interface AuthUser extends BaseUser {
   token?: string;     // For authenticated user responses
 }
-
 
 export interface LoginInput extends Omit<User, 'id'>{
   

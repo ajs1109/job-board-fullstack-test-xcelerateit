@@ -1,8 +1,6 @@
 import sequelize from "@/lib/db";
-import UserModel from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
-import { JWT_SECRET } from "@/utils/config";
-import { getUserFromToken, verifyToken } from "@/utils/auth";
+import { getUserFromToken } from "@/utils/auth";
 
 export async function POST(req: NextRequest) {
     await sequelize.sync();

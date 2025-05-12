@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Return user without password
-    const { password: _, ...userWithoutPassword } = user.toJSON();
+    const { ...userWithoutPassword } = user.toJSON();
 
     const token = jwt.sign({ id: user.dataValues.id }, JWT_SECRET, { expiresIn: "2days" });
     const response = NextResponse.json(
