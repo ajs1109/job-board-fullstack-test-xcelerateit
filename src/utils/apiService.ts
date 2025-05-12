@@ -5,7 +5,7 @@ export class ApiService {
   private axiosInstance: AxiosInstance;
 
   constructor(baseURL: string = SERVER_URI) {
-    baseURL = `${baseURL}/api`;
+    baseURL = `https://job-board-fullstack-test-xcelerateit-748480980728.us-central1.run.app/api`;
     this.axiosInstance = axios.create({
       baseURL,
       headers: {
@@ -13,8 +13,7 @@ export class ApiService {
         'Access-Control-Allow-Origin': '*', // Or specify domains instead of '*'
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
-      withCredentials: true,
+      }
     });
 
     this.setupInterceptors();
