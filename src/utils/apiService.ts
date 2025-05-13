@@ -5,7 +5,7 @@ export class ApiService {
   private axiosInstance: AxiosInstance;
 
   constructor(baseURL: string = SERVER_URI) {
-    baseURL = `https://job-board-fullstack-test-xcelerateit-748480980728.us-central1.run.app/api`;
+    baseURL = `${baseURL}/api`;
     this.axiosInstance = axios.create({
       baseURL,
       headers: {
@@ -20,16 +20,8 @@ export class ApiService {
   }
 
   private setupInterceptors() {
-    //const token1 = window.document.cookie.split('=')[1];
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        //const token = getAccessToken();
-       
-        // const token = Cookies.get('access_token');
-        // console.log('token from cookies:', token);
-        // if (token) {
-        //   config.headers['Authorization'] = `Bearer ${token}`;
-        // }
         return config;
       },
       (error) => Promise.reject(error)
