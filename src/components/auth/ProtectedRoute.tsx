@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuthStore } from '@/stores/authStore';
+import { DottedSpinner } from '@/utils/customToast';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -24,7 +25,7 @@ export default function ProtectedRoute({ children, roles }: ProtectedRouteProps)
   }, [loading, isAuthenticated, user, roles, router]);
 
   if (loading || !isAuthenticated || (roles && !roles.includes(user?.role as string))) {
-    return <div>Loading...</div>;
+    return <div><DottedSpinner /></div>;
   }
 
   return <>{children}</>;

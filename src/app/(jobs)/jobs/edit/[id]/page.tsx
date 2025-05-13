@@ -6,6 +6,7 @@ import { Job } from '@/types/job';
 import JobForm from '@/components/jobs/JobForm';
 import { useAuthStore } from '@/stores/authStore';
 import { fetchJobById } from '@/lib/api';
+import { DottedSpinner } from '@/utils/customToast';
 
 export default function EditJobPage() {
   const { id } = useParams();
@@ -36,7 +37,7 @@ export default function EditJobPage() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><DottedSpinner /></div>;
   }
 
   if (!job) {

@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import { useAuthStore } from '@/stores/authStore';
+import { DottedSpinner } from '@/utils/customToast';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   }, []);
   
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center"><DottedSpinner /></div>;
   }
   
   return (

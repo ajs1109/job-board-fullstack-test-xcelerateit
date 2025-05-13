@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { createJob, updateJob } from '@/lib/api';
 import { useState } from 'react';
+import { ButtonLoader } from '@/utils/customToast';
 
 interface JobFormProps {
   initialData?: Job;
 }
 
 export default function JobForm({ initialData }: JobFormProps) {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -38,6 +40,7 @@ export default function JobForm({ initialData }: JobFormProps) {
 
   const onSubmit = async (data: CreateJob) => {
     try {
+      setLoading(true);
       if (initialData) {
         await updateJob(initialData.id.toString(), data);
         toast.success('Job updated successfully!');
@@ -49,6 +52,8 @@ export default function JobForm({ initialData }: JobFormProps) {
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -146,8 +151,9 @@ export default function JobForm({ initialData }: JobFormProps) {
         <button
           type="submit"
           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          disabled={loading}
         >
-          {initialData ? 'Update' : 'Create'}
+          {loading ? <ButtonLoader /> : initialData ? 'Update Job' : 'Create Job'}
         </button>
       </div>
     </form>

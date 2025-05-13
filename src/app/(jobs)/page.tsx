@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Job } from '@/types/job';
 import { useAuthStore } from '@/stores/authStore';
 import { Search } from 'lucide-react';
+import { DottedSpinner } from '@/utils/customToast';
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -43,7 +44,7 @@ export default function JobsPage() {
   }, [jobs, searchQuery]);
 
   if (loading) {
-    return <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">Loading...</div>;
+    return <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><DottedSpinner /></div>;
   }
 
   return (

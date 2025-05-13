@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { useAuthStore } from '@/stores/authStore';
 import { deleteJobById, fetchJobById } from '@/lib/api';
+import { DottedSpinner } from '@/utils/customToast';
 
 export default function JobDetailPage() {
   const { id } = useParams();
@@ -45,7 +46,7 @@ export default function JobDetailPage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><DottedSpinner /></div>;
   }
 
   if (!job) {
