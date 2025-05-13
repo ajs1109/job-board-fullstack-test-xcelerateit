@@ -47,7 +47,7 @@ const AuthForms = () => {
       onAuthSuccess();
     } catch (error: any) {
       console.log(error);
-      errorToast(error.response.data.message ? error.response.data.message : "Login failed");
+      errorToast(error?.response?.data?.message ? error?.response?.data?.message : "Login failed");
     }
   };
 
