@@ -10,4 +10,4 @@ export const DB_PORT = parseInt(process.env.DB_PORT || '5432');
 export const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 export const JWT_EXPIRATION = process.env.JWT_EXPIRATION || '2days';
 export const NODE_ENV = 'production';
-export const SERVER_URI = 'https://job-board-fullstack-test-xcelerateit-748480980728.us-central1.run.app';
+export const SERVER_URI = 'https://job-board-fullstack-test-new-748480980728.us-central1.run.app';
