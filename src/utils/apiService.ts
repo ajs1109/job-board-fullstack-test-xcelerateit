@@ -5,7 +5,7 @@ export class ApiService {
   private axiosInstance: AxiosInstance;
 
   constructor(baseURL: string = SERVER_URI) {
-    baseURL = `https://job-board-fullstack-test-xcelerateit-748480980728.us-central1.run.app/api`;
+    baseURL = `${baseURL}/api`;
     this.axiosInstance = axios.create({
       baseURL,
       headers: {
