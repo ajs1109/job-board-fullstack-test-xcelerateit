@@ -1,25 +1,29 @@
 // src/lib/db.ts
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
-import PG from 'pg';
+import pg from 'pg';
 
 // Load environment variables
 dotenv.config();
 
-// Get database connection variables from environment
-const DB_NAME = process.env.DB_NAME || 'yourdbname';
-const DB_USER = process.env.DB_USER || 'postgres';
-const DB_PASSWORD = process.env.DB_PASSWORD || '';
-const DB_HOST = process.env.DB_HOST || 'localhost';
-const DB_PORT = parseInt(process.env.DB_PORT || '5432');
+// Use the pooled connection URL from Neon
+const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL || "postgres://neondb_owner:npg_WYJsw0ckHy2b@ep-mute-tree-a4wa6s0d-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require";
 
-// Create Sequelize instance - note that we're fixing the syntax here
-const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  port: DB_PORT,
-  dialect: 'postgres', // This was incorrectly followed by another object before
-  dialectModule: PG,
+if (!connectionString) {
+  throw new Error('DATABASE_URL or POSTGRES_URL environment variable is required');
+}
+
+// Create Sequelize instance with Neon connection
+const sequelize = new Sequelize(connectionString, {
+  dialect: 'postgres',
+  dialectModule: pg, // Use the pg package
   logging: process.env.NODE_ENV === 'development' ? console.log : false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // For Neon's SSL
+    }
+  },
   pool: {
     max: 5,
     min: 0,
@@ -33,14 +37,18 @@ const testConnection = async () => {
   try {
     await sequelize.authenticate();
     console.log('Database connection established successfully.');
+    
+    // Sync models in development
+    if (process.env.NODE_ENV === 'development') {
+      await sequelize.sync({ alter: true });
+      console.log('Database synced');
+    }
   } catch (error) {
     console.error('Unable to connect to the database:', error);
+    process.exit(1); // Exit if DB connection fails
   }
 };
 
-// Call test connection in development
-if (process.env.NODE_ENV === 'development') {
-  testConnection();
-}
+testConnection();
 
 export default sequelize;
